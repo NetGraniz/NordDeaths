@@ -1,0 +1,17 @@
+name: NordDeaths
+version: '1.0.0'
+main: com.nordfjell.norddeaths.NordDeathsPlugin
+api-version: '26.2'
+author: Nord Fjell
+description: Small configurable random death-message plugin for Nord Fjell.
+softdepend: [NordChat]
+
+commands:
+  norddeaths:
+    description: Reload NordDeaths configuration.
+    usage: /norddeaths reload
+    permission: norddeaths.admin
+
+permissions:
+  norddeaths.admin:
+    default: op
