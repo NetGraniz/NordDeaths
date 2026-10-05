@@ -1,5 +1,5 @@
 name: NordDeaths
-version: '1.0.0'
+version: '${project.version}'
 main: com.nordfjell.norddeaths.NordDeathsPlugin
 api-version: '26.2'
 author: Nord Fjell
