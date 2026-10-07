@@ -18,13 +18,25 @@ import org.bukkit.projectiles.ProjectileSource;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class NordDeathsPlugin extends JavaPlugin implements Listener {
+    private volatile Map<String,List<String>> messages = Map.of();
+    private void loadMessages() {
+        reloadConfig();
+        Map<String,List<String>> next = new HashMap<>();
+        var section = getConfig().getConfigurationSection("messages");
+        if (section != null) for (String key : section.getKeys(false))
+            next.put(key,List.copyOf(getConfig().getStringList("messages." + key)));
+        messages = Map.copyOf(next);
+    }
     @Override
     public void onEnable() {
         saveDefaultConfig();
+        loadMessages();
         getServer().getPluginManager().registerEvents(this, this);
         getLogger().info("NordDeaths enabled. NordChat can still apply per-player death-message visibility.");
     }
@@ -33,8 +45,9 @@ public final class NordDeathsPlugin extends JavaPlugin implements Listener {
     public void onDeath(PlayerDeathEvent event) {
         if (!event.getShowDeathMessages() || event.deathMessage() == null) return;
         DeathContext context = classify(event.getPlayer());
-        List<String> options = getConfig().getStringList("messages." + context.category());
-        if (options.isEmpty()) options = getConfig().getStringList("messages.generic");
+        Map<String,List<String>> current = messages;
+        List<String> options = current.getOrDefault(context.category(),List.of());
+        if (options.isEmpty()) options = current.getOrDefault("generic",List.of());
         if (options.isEmpty()) options = List.of("{player} died.");
         String template = options.get(ThreadLocalRandom.current().nextInt(options.size()));
         String resolved = template
@@ -89,8 +102,12 @@ public final class NordDeathsPlugin extends JavaPlugin implements Listener {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
                              @NotNull String label, @NotNull String[] args) {
         if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
-            reloadConfig();
-            sender.sendMessage(Component.text("NordDeaths configuration reloaded."));
+            getServer().getGlobalRegionScheduler().execute(this,() -> {
+                loadMessages();
+                Component message=Component.text("NordDeaths configuration reloaded.");
+                if (sender instanceof Player player) player.getScheduler().execute(this,() -> player.sendMessage(message),null,1L);
+                else sender.sendMessage(message);
+            });
         } else {
             sender.sendMessage(Component.text("Usage: /norddeaths reload"));
         }

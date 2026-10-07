@@ -2,6 +2,7 @@ name: NordDeaths
 version: '${project.version}'
 main: com.nordfjell.norddeaths.NordDeathsPlugin
 api-version: '26.2'
+folia-supported: true
 author: Nord Fjell
 description: Small configurable random death-message plugin for Nord Fjell.
 softdepend: [NordChat]
