@@ -1,12 +1,23 @@
 # NordDeaths 1.1.0
 
-One release JAR for Paper 26.2 and Folia 26.2: [compatibility notes](FOLIA.md).
+Random English death messages for Paper 26.2 and Folia 26.2. One JAR supports both platforms on Java 25.
 
-> Release build and installation requirements: see [BUILDING.md](BUILDING.md).
-> Older local paths below describe historical test fixtures, not the release build.
+## Configuration
 
-Small random English death-message plugin for Nord Fjell. Messages live in `config.yml` and are grouped by cause.
+Edit the message groups in `plugins/NordDeaths/config.yml`; each group matches a death cause. Run `/norddeaths reload` to load the changes.
 
-NordDeaths runs before NordChat's death-message listener. NordChat therefore continues to honor `/toggledeathmsgs`, `/toggledeathmsgshard` and `/ignoredeathmsgs` for the customized messages.
+NordDeaths handles the death event before NordChat. NordChat's `/toggledeathmsgs`, `/toggledeathmsgshard` and `/ignoredeathmsgs` preferences still apply.
 
-Build with `./build.ps1`. Install `target/NordDeaths-1.1.0.jar` only while the server is stopped.
+## Permissions
+
+| Permission | Allows | Default |
+| --- | --- | --- |
+| `norddeaths.admin` | `/norddeaths reload` | Operators |
+
+Players do not need a NordDeaths permission to receive death messages.
+
+## Build and installation
+
+Run `./build.ps1` with Maven 3.9+ and JDK 25. Install `target/NordDeaths-1.1.0.jar` while the server is stopped.
+
+See [BUILDING.md](BUILDING.md) for release requirements and [FOLIA.md](FOLIA.md) for scheduling details.
