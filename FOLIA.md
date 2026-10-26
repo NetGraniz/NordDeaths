@@ -1,6 +1,6 @@
-# Paper / Folia compatibility — 1.1.0
+# Paper / Folia compatibility — 1.1.1
 
-Use `NordDeaths-1.1.0.jar` on either platform with JDK 25. Entity/global scheduler APIs support both platforms; no separate branch is needed.
+Use `NordDeaths-1.1.1.jar` on either platform with JDK 25. Entity/global scheduler APIs support both platforms; no separate branch is needed.
 
 Death events read an immutable message snapshot. Reload uses the global scheduler; responses use the requesting player's scheduler. Message templates and classification are unchanged.
 

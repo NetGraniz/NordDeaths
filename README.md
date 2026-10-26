@@ -1,4 +1,4 @@
-# NordDeaths 1.1.0
+# NordDeaths 1.1.1
 
 Random English death messages for Paper 26.2 and Folia 26.2. One JAR supports both platforms on Java 25.
 
@@ -18,6 +18,8 @@ Players do not need a NordDeaths permission to receive death messages.
 
 ## Build and installation
 
-Run `./build.ps1` with Maven 3.9+ and JDK 25. Install `target/NordDeaths-1.1.0.jar` while the server is stopped.
+Projectile attackers are captured while the damage event still owns the projectile's Folia region. This avoids reading a removed arrow from a later death event.
+
+Run `./build.ps1` with Maven 3.9+ and JDK 25. Install `target/NordDeaths-1.1.1.jar` while the server is stopped.
 
 See [BUILDING.md](BUILDING.md) for release requirements and [FOLIA.md](FOLIA.md) for scheduling details.
